@@ -1,13 +1,8 @@
 #' Zooms in on current plot
 #' 
-#' Interactively zoom in on the current plot. There are two methods for 
-#' zooming.  A purely interactive zoom where you simply click on location to 
-#' zoom into and use ESC to quit. This is a wrapper function/shortcut for 
-#' zoom::in.zoom(...).  This works well with smaller data sets; however it lags
-#' as the data increases in size.  The second method performs better with 
-#' larger datasets and requires you to create a \code{qmap} object and pass 
-#' that object to \code{zi()}.  A single zoom in results and the extent of the
-#' \code{qmap} object is changed.  
+#' Interactively zoom in on the current plot. Requires a 
+#' \code{qmap} object.  A single zoom in, with the location clicked at the 
+#' center, results and the extent of the \code{qmap} object is changed.  
 #' 
 #' @param qmap_obj  A qmap object.  Optional, but performs better with larger 
 #'                  data sets.
@@ -30,7 +25,7 @@ zi <- function(qmap_obj = NULL, zoom_perc = 0.5, ...) {
     stop("Argument, zoom_perc, needs to be between 0 and 1")
   }
   if (is.null(qmap_obj)) {
-    zoom::in.zoom(...)
+    stop("A 'qmap' object is required.  Create with 'quickmapr::qmap().'")
   } else {
     continue <- 0
     obj <- paste(substitute(qmap_obj))

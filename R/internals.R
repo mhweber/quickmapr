@@ -90,3 +90,5 @@ bbox_to_sp<-function(sp){
   sp <- SpatialPolygons(list(ps), 1L, proj4string = CRS(proj4string(sp)))
   return(sp)
 }
+
+

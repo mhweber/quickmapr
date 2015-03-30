@@ -161,3 +161,37 @@ print.qmap <- function(x, ...) {
     draw_order = x$draw_order, colors = x$colors, fill = x$fill, label = x$label)
   return(print_it)
 } 
+
+#' Get a basemap from USGS National Map
+#' 
+#' Uses the National Map Aerial Image REST API to return an aerial image to be
+#' used as a basemap.  May add functionality for 1m or 1ft images.  May also add
+#' topo-map.
+#' 
+#' @param bbx a bounding box from \code{qmap()}
+#' @param p4s a proj4string of projection to request image in.
+#' @keywords internal
+get_basemap <- function(bbx, p4s){
+  
+  server_url<-"http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?"
+  bbx_url<-"bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
+  format_url<-"&format=tiff"
+  pixel_url<-"&pixelType=U8&noDataInterpretation=esriNoDataMatchAny&interpolation=+RSP_BilinearInterpolation"
+  file_url<-"&f=image"
+  bbx_sr_url<-
+  image_sr_url<-"&imageSR=102003"  #Need to build JSON from proj4string
+  request_url<-paste0(server_url,bbx_url,format_url,pixel_url,file_url,image_sr_url)
+  download.file(request_url,"inst/extdata/test2.tif")            
+  img<-raster::raster("inst/extdata/test.tif")
+  img_lake<-projectRaster(img,crs=CRS(proj4string(lake)))
+  img_lake_rgdal<-readGDAL("inst/extdata//test.tif")
+  img_lake_rgdal<-spTransform(img_lake_rgdal,CRS(proj4string(lake)))
+  image(img_lake_rgdal,red=1,green=2,blue=3)
+  x<-qmap(img_lake,lake,colors = "black")
+}
+
+#' http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?bbox=-8026861,5361113,-8014736,5377674
+#' http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?bbox=-8026861,5361113,-8014736,5377674&bboxSR=&size=&imageSR=&time=&format=jpg&pixelType=U8&noData=&noDataInterpretation=esriNoDataMatchAny&interpolation=+RSP_BilinearInterpolation&compression=&compressionQuality=&bandIds=&mosaicRule=&renderingRule=&f=image
+#' 102003- US Albers Contig
+#' 102039- USGS Albers
+#' http://resources.esri.com/help/9.3/arcgisserver/apis/rest/pcs.html
