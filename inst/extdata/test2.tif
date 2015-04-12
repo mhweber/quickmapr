@@ -1,0 +1,331 @@
+
+
+
+
+
+
+
+
+
+<html>
+
+<head>
+<title>Export Image (Orthoimagery/USGS_EROS_Ortho_NAIP)</title>
+<link href="/arcgis/rest/static/main.css" rel="stylesheet" type="text/css"/>
+
+<link href="http://gisdata.usgs.gov/includes/common.css" rel="stylesheet" type="text/css"/>
+
+<link href="http://gisdata.usgs.gov/includes/custom.css" rel="stylesheet" type="text/css"/></head>
+
+<body>
+
+<table style="background-color:#000000;width:100%">
+<tr>
+<td width="90%"><img src="http://gisdata.usgs.gov/images/header_graphic_usgsIdentifier_white.jpg" alt="Banner"></td>
+<td><a style="color:#ffffff;font-weight:bold;" href="http://www.usgs.gov/">USGS Home</a>
+<br /><a  style="color:#ffffff;font-weight:bold;" href="http://www.usgs.gov/ask/">Contact USGS</a>
+<br /><a  style="color:#ffffff;font-weight:bold;" href="http://search.usgs.gov/">Search USGS</a>
+</td>
+</tr></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table width="100%" class="userTable">
+ <tr>
+ <td class="titlecell">
+ ArcGIS REST Services Directory
+ </td>
+ <td align="right">
+   
+      
+        <a href="http://raster.nationalmap.gov/arcgis/rest/login">Login</a>
+       
+            | <a href="https://raster.nationalmap.gov/arcgis/tokens/">Get Token</a>
+                  
+      
+   
+ </td>
+ </tr>
+</table>
+<table width="100%" class="navTable">
+<tr valign="top">
+<td class="breadcrumbs">
+<a href="/arcgis/rest/services">Home</a>
+
+
+
+
+
+
+  &gt; <a href="/arcgis/rest/services">services</a>
+  
+  &gt; <a href="/arcgis/rest/services/Orthoimagery">Orthoimagery</a>
+  
+  &gt; <a href="/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer">USGS_EROS_Ortho_NAIP (ImageServer)</a>
+  
+  &gt; <a href="/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage"><i>exportImage</i></a>
+  
+</td>
+<td align="right">
+<a href="http://raster.nationalmap.gov/arcgis/sdk/rest/02ss/02ss00000057000000.htm" target="_blank">Help</a> | <a href="http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?f=help" target="_blank">API Reference</a>
+</td>
+</tr>
+</table>
+
+
+
+<h2>Export Image (Orthoimagery/USGS_EROS_Ortho_NAIP)</h2>
+
+<div class="rbody">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="color:#ff6666"> 
+
+</div>
+
+<form name="sdform" action="/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage">
+
+<table class="formTable">
+
+<tr valign="top">
+<td>Bounding Box:</td>
+<td><input type="text" name="bbox" value="" size="75"/></td>
+</tr>
+
+<tr valign="top">
+<td>Bounding Box Spatial Reference:</td>
+<td><input type="text" name="bboxSR" value="" size="75" /></td>
+</tr>
+
+<tr valign="top">
+<td>Image Size:</td>
+<td><input type="text" name="size" value="" /></td>
+</tr>
+
+<tr valign="top">
+<td>Image Spatial Reference:</td>
+<td><input type="text" name="imageSR" value="" size="75" /></td>
+</tr>
+
+<tr>
+<td>Time: </td>
+<td><input type="text" name="time" value="" size="50" /></td>
+</tr>
+
+<tr valign="top">
+<td>Image Format:</td>
+<td>
+<select name="format">
+
+  <option value="jpgpng" >jpgpng</option>
+  
+  <option value="png" >png</option>
+  
+  <option value="png8" >png8</option>
+  
+  <option value="png24" >png24</option>
+  
+  <option value="png32" >png32</option>
+  
+  <option value="jpg" >jpg</option>
+  
+  <option value="bmp" >bmp</option>
+  
+  <option value="gif" >gif</option>
+  
+  <option value="tiff" >tiff</option>
+  
+</select>
+</td>
+</tr>
+
+<tr valign="top">
+<td>Pixel Type:</td>
+<td>
+<select name="pixelType">
+
+	<option value="C128" >C128</option>
+	
+	<option value="C64" >C64</option>
+	
+	<option value="F32" >F32</option>
+	
+	<option value="F64" >F64</option>
+	
+	<option value="S16" >S16</option>
+	
+	<option value="S32" >S32</option>
+	
+	<option value="S8" >S8</option>
+	
+	<option value="U1" >U1</option>
+	
+	<option value="U16" >U16</option>
+	
+	<option value="U2" >U2</option>
+	
+	<option value="U32" >U32</option>
+	
+	<option value="U4" >U4</option>
+	
+	<option value="U8" selected="true">U8</option>
+	
+	<option value="UNKNOWN" >UNKNOWN</option>
+	
+</select>
+</td>
+</tr>
+
+<tr valign="top">
+<td>No Data:</td>
+<td><input type="text" name="noData" value="" /></td>
+</tr>
+
+<tr valign="top">
+<td>NoDataInterpretation:</td>
+<td>
+<select name="noDataInterpretation">
+  <option value="esriNoDataMatchAny" >NoData MatchAny</option>
+  <option value="esriNoDataMatchAll" >NoData MatchAll</option>
+</select>
+</td>
+</tr>
+
+<tr valign="top">
+<td>Interpolation:</td>
+<td>
+<select name="interpolation">
+
+  <option value=" RSP_BilinearInterpolation" > RSP_BilinearInterpolation</option>
+  
+  <option value="RSP_CubicConvolution" >RSP_CubicConvolution</option>
+  
+  <option value="RSP_Majority" >RSP_Majority</option>
+  
+  <option value="RSP_NearestNeighbor" >RSP_NearestNeighbor</option>
+  
+</select>
+</td>
+</tr>
+
+<tr valign="top">
+<td>Compression:</td>
+<td><input type="text" name="compression" value="" /></td>
+</tr>
+
+<tr valign="top">
+<td>Compression Quality:</td>
+<td><input type="text" name="compressionQuality" value="" /></td>
+</tr>
+
+<tr valign="top">
+<td>Band IDs:</td>
+<td><input type="text" name="bandIds" value="" /></td>
+</tr>
+
+<tr valign="top">
+<td>Mosaic Rule:</td>
+<td>
+<textarea name="mosaicRule" rows="3" cols="55"></textarea>
+</td>
+</tr>
+
+<tr valign="top">
+<td>Rendering Rule:</td>
+<td>
+<textarea name="renderingRule" rows="3" cols="55"></textarea>
+</td>
+</tr>
+
+<tr>
+<td>Format:</td>
+<td>
+<select name="f">
+<option value="html">HTML</option>
+<option value="pjson">JSON</option>
+<option value="image">Image</option>
+<option value="kmz">KMZ</option>
+</select>
+</td>
+</tr>
+
+<tr>
+<td colspan="2" align="left">
+<input type="submit" value="Export Image (GET)" />
+<input type="submit" onclick="this.form.method = 'post';" value="Export Image (POST)" />
+</td>
+</tr>
+
+</table>
+
+</form>
+
+<script type="text/javascript">
+document.forms.sdform.bbox.focus();
+</script>
+
+<br/><br/>
+
+</div>
+
+<br/><br/>
+
+
+<div id="usgsfooter">
+<p id="usgsfooterbar">
+<a href="http://www.usgs.gov/laws/accessibility.html" title="Accessibility Policy (Section 508)">Accessibility</a>
+<a href="http://www.usgs.gov/foia/" title="Freedom of Information Act">FOIA</a>
+<a href="http://www.usgs.gov/laws/privacy.html" title="Privacy policies of the U.S. Geological Survey.">Privacy</a>
+<a href="http://www.usgs.gov/laws/policies_notices.html" title="Policies and notices that govern information posted on USGS Web sites.">Policies and Notices</a>
+</p>
+<p id="usgsfootertext">
+<a href="http://usa.gov/"><img src="http://www.usgs.gov/images/footer_graphic_usagov.jpg" alt="USA.gov logo" title="USAGov: Government Made Easy" width="90" height="26" /></a>
+<a href="http://www.doi.gov/">U.S. Department of the Interior</a> |
+<a href="http://www.usgs.gov/">U.S. Geological Survey</a><br />
+URL: /arcgis/rest/services/<br>
+Page Contact Information: <a href="mailto:webmapping@usgs.gov">webmapping@usgs.gov</a><br />
+Page Last Modified: December 2014
+</p>
+</div>
+
+</body>
+
+</html>

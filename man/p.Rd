@@ -13,14 +13,9 @@ data sets.}
 \item{...}{arguments to be passed to zoom::move.to.click.zoom(...)}
 }
 \description{
-Interactively reposition the current plot. There are two methods for
-panning.  First, a purely interactive pane where you simply click on
-location to reposition the map and use ESC to quit. This is a wrapper
-function/shortcut for zoom::move.to.click.zoom(...).  This works well
-with smaller data sets; however it lags as the data increases in size.  The
-second method performs better with larger datasets and requires you to
-create a \code{qmap} object and pass that object to \code{p()}.  A single
-repositioning results and the extent of the \code{qmap} object is changed.
+Interactively reposition the current plot.  Requires a \code{qmap} object.
+Each click repositions the map with the location clicked as the center.
+The extent of the \code{qmap} object is changed.
 }
 \examples{
 \dontrun{
