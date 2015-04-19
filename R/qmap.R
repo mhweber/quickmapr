@@ -187,12 +187,9 @@ get_basemap <- function(bbx, p4s, base=c("1m_aerial","1ft_aerial","topo")){
   bbx_sr_url<-paste('&bboxSR={"wkt": "',rgdal::showWKT(p4s),'"}',sep="")
   image_sr_url<-paste('&imageSR={"wkt": "',rgdal::showWKT(p4s),'"}',sep="")  #Need to build JSON from proj4string
   request_url<-paste0(server_url,bbx_url,format_url,pixel_url,file_url,image_sr_url)
-  download.file(request_url,"inst/extdata/test2.tif")            
-  img<-raster::raster("inst/extdata/test.tif")
-  img_lake<-projectRaster(img,crs=CRS(proj4string(lake)))
-  img_lake_rgdal<-readGDAL("inst/extdata//test.tif")
-  img_lake_rgdal<-spTransform(img_lake_rgdal,CRS(proj4string(lake)))
-  image(img_lake_rgdal,red=1,green=2,blue=3)
+  tmp<-tempfile()
+  download.file(request_url,tmp)            
+  img<-raster::raster(tmp)
   x<-qmap(img_lake,lake,colors = "black")
 }
 
