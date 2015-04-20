@@ -171,17 +171,20 @@ print.qmap <- function(x, ...) {
 #' @param bbx a bounding box from \code{qmap()}
 #' @param p4s a proj4string of projection to request image in.
 #' @examples
-#' x<-qmap(mymap)
+#' data(lake)
+#' x<-qmap(lake,buffer)
 #' get_basemap(x$map_extent,proj4string(lake))
 #' #@keywords internal
 #' @export
 get_basemap <- function(bbx, p4s, base=c("1m_aerial","1ft_aerial","topo")){
+  browser()
   base<-match.arg(base)
   if(base=="1m_aerial"){
     server_url<-"http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?"
   }
-  bbx_url<-paste("bbox=",bbx[1,1],",",bbx[1,2],",",bbx[2,1],",",bbx[2,2],sep="") #"bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
-  format_url<-"&format=tiff"
+  bbx_url<-"bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
+  #bbx_url<-paste("bbox=",bbx[1,1],",",bbx[1,2],",",bbx[2,1],",",bbx[2,2],sep="") #"#bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
+  format_url<-"&format=jpgpng"
   pixel_url<-"&pixelType=U8&noDataInterpretation=esriNoDataMatchAny&interpolation=+RSP_BilinearInterpolation"
   file_url<-"&f=image"
   bbx_sr_url<-paste('&bboxSR={"wkt": "',rgdal::showWKT(p4s),'"}',sep="")
