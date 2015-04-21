@@ -46,7 +46,9 @@ data(lake)
 qm <- qmap(elev,samples,buffer,width)
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+```
+## Error in eval(expr, envir, enclos): could not find function "qmap"
+```
 
 There are some other options on `qmap` that let you change the draw order, coloring of vectors, extent of the map, and whether or not to preform a basic projection check (data are assumed to be in the same coordinate reference system).
 
@@ -58,16 +60,8 @@ So for instance, if you want to zoom in to the extent of one of your layers you 
 qmap(qm,extent=width)
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
-
 ```
-## qm.elev
-
-## qm.samples
-
-## qm.buffer
-
-## qm.width
+## Error in eval(expr, envir, enclos): could not find function "qmap"
 ```
 
 Currently this is only working with object in memory and not pulling from the `qmap` object.  
@@ -80,25 +74,7 @@ You can change colors (this is still a bit clunky).
 qmap(qm,order = c(2,4,3), colors = c("red","red","blue"), fill=TRUE)
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
-
 ```
-## qm.elev
-
-## qm.samples
-
-## qm.buffer
-
-## qm.width
-```
-
-```
-## red
-
-## red
-
-## blue
-
-## red
+## Error in eval(expr, envir, enclos): could not find function "qmap"
 ```
 
