@@ -17,9 +17,11 @@ used as a basemap.  May add functionality for 1m or 1ft images.  May also add
 topo-map.
 }
 \examples{
+\dontrun{
 data(lake)
 x<-qmap(lake,buffer)
 get_basemap(x$map_extent,proj4string(lake))
+}
 #
 }
 \keyword{internal}

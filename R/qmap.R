@@ -171,13 +171,15 @@ print.qmap <- function(x, ...) {
 #' @param bbx a bounding box from \code{qmap()}
 #' @param p4s a proj4string of projection to request image in.
 #' @examples
+#' \dontrun{
 #' data(lake)
 #' x<-qmap(lake,buffer)
 #' get_basemap(x$map_extent,proj4string(lake))
+#' }
 #' #@keywords internal
 #' @export
 get_basemap <- function(bbx, p4s, base=c("1m_aerial","1ft_aerial","topo")){
-  browser()
+  #browser()
   base<-match.arg(base)
   if(base=="1m_aerial"){
     server_url<-"http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?"
