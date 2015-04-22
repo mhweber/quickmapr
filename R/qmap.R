@@ -170,24 +170,32 @@ print.qmap <- function(x, ...) {
 #' 
 #' @param bbx a bounding box from \code{qmap()}
 #' @param p4s a proj4string of projection to request image in.
-#' @keywords internal
-get_basemap <- function(bbx, p4s){
-  
-  server_url<-"http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?"
-  bbx_url<-"bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
-  format_url<-"&format=tiff"
+#' @examples
+#' \dontrun{
+#' data(lake)
+#' x<-qmap(lake,buffer)
+#' get_basemap(x$map_extent,proj4string(lake))
+#' }
+#' #@keywords internal
+#' @export
+get_basemap <- function(bbx, p4s, base=c("1m_aerial","1ft_aerial","topo")){
+  #browser()
+  base<-match.arg(base)
+  if(base=="1m_aerial"){
+    server_url<-"http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?"
+  }
+  #bbx_url<-"bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
+  bbx_url<-paste("bbox=",bbx[1,1],",",bbx[2,1],",",bbx[1,2],",",bbx[2,2],sep="") #"#bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
+  format_url<-"&format=jpgpng"
   pixel_url<-"&pixelType=U8&noDataInterpretation=esriNoDataMatchAny&interpolation=+RSP_BilinearInterpolation"
   file_url<-"&f=image"
-  bbx_sr_url<-
-  image_sr_url<-"&imageSR=102003"  #Need to build JSON from proj4string
-  request_url<-paste0(server_url,bbx_url,format_url,pixel_url,file_url,image_sr_url)
-  download.file(request_url,"inst/extdata/test2.tif")            
-  img<-raster::raster("inst/extdata/test.tif")
-  img_lake<-projectRaster(img,crs=CRS(proj4string(lake)))
-  img_lake_rgdal<-readGDAL("inst/extdata//test.tif")
-  img_lake_rgdal<-spTransform(img_lake_rgdal,CRS(proj4string(lake)))
-  image(img_lake_rgdal,red=1,green=2,blue=3)
-  x<-qmap(img_lake,lake,colors = "black")
+  bbx_sr_url<-paste("&bboxSR={'wkt':'",rgdal::showWKT(p4s),"'}",sep="")
+  image_sr_url<-paste("&imageSR={'wkt':'",rgdal::showWKT(p4s),"'}",sep="")  #Need to build JSON from proj4string
+  request_url<-paste0(server_url,bbx_url,bbx_sr_url,image_sr_url,format_url,pixel_url,file_url)
+  tmp<-tempfile()
+  download.file(request_url,tmp)            
+  img<-raster::raster(tmp,crs=p4s)
+  x<-qmap(img,lake,colors = "black")
 }
 
 #' http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?bbox=-8026861,5361113,-8014736,5377674
