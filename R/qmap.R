@@ -179,14 +179,14 @@ print.qmap <- function(x, ...) {
 #' #@keywords internal
 #' @export
 get_basemap <- function(bbx, p4s, base=c("1m_aerial","1ft_aerial","topo")){
-  #browser()
+  browser()
   base<-match.arg(base)
   if(base=="1m_aerial"){
     server_url<-"http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?"
   }
   #bbx_url<-"bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
   bbx_url<-paste("bbox=",bbx[1,1],",",bbx[2,1],",",bbx[1,2],",",bbx[2,2],sep="") #"#bbox=-8026861,5361113,-8014736,5377674" #Needs to come from bbx
-  format_url<-"&format=jpgpng"
+  format_url<-"&format=tiff"
   pixel_url<-"&pixelType=U8&noDataInterpretation=esriNoDataMatchAny&interpolation=+RSP_BilinearInterpolation"
   file_url<-"&f=image"
   bbx_sr_url<-paste("&bboxSR={'wkt':'",rgdal::showWKT(p4s),"'}",sep="")
@@ -194,8 +194,8 @@ get_basemap <- function(bbx, p4s, base=c("1m_aerial","1ft_aerial","topo")){
   request_url<-paste0(server_url,bbx_url,bbx_sr_url,image_sr_url,format_url,pixel_url,file_url)
   tmp<-tempfile()
   download.file(request_url,tmp)            
-  img<-raster::raster(tmp,crs=p4s)
-  x<-qmap(img,lake,colors = "black")
+  img<-raster::brick(tmp)
+  return(img)
 }
 
 #' http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?bbox=-8026861,5361113,-8014736,5377674
