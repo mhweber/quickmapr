@@ -24,12 +24,12 @@
 #' \dontrun{
 #' data(lake)
 #' mymap<-list(elev,lake,buffer,length,samples)
-#' qmap(mymap)
+#' qmap(mymap,basemap="1m_aerial")
 #' #change draw order and which data is displayed
 #' qmap(mymap,order=c(2,3,5))
 #' }
 qmap <- function(..., extent = NULL, order = 1:length(mapdata), colors = 1:length(mapdata), 
-  fill = FALSE, prj = TRUE) {
+  fill = FALSE, prj = TRUE, basemap = NULL) {
   mapdata <- build_map_data(...)
   if (length(mapdata) > 1) {
     # Test Projections
@@ -83,6 +83,15 @@ qmap <- function(..., extent = NULL, order = 1:length(mapdata), colors = 1:lengt
   
   qmap_obj <- list(map_data = mapdata, map_extent = bbx, draw_order = order, 
     colors = colors, fill = fill, map = NULL)
+  if(!is.null(basemap)){
+    if(!basemap%in%c("1m_aerial","1ft_aerial","topo")){
+      warning("basemap not a valid option, has been set to NULL")
+      qmap_obj<-c(qmap_obj,basemap=NULL)
+    }
+    qmap_obj<-c(qmap_obj,basemap=get_basemap(bbx,proj4string(mapdata[[1]]),basemap))
+  } else {
+    qmap_obj<-c(qmap_obj,basemap=NULL)
+  }
   class(qmap_obj) <- "qmap"
   qmap_obj$map = plot.qmap(qmap_obj)
   return(qmap_obj)
@@ -103,12 +112,18 @@ plot.qmap <- function(x, ...) {
   fill <- x$fill
   colors <- x$colors
   bbx <- x$map_extent
+  basemap <- x$basemap
   
   # Creates the plot
   first <- TRUE
+  if(!is.null(basemap)){
+    image(basemap,red=1,green=2,blue=3,xlim = as.numeric(bbx[1, ]), 
+            ylim = as.numeric(bbx[2, ]), axes = TRUE, ...)
+    first <- FALSE
+  }
   for (i in 1:length(order)) {
     if (first) {
-      if (get_sp_type(mapdata[[order[i]]]) == "grid") {
+       if (get_sp_type(mapdata[[order[i]]]) == "grid") {
         image(mapdata[[order[i]]], xlim = as.numeric(bbx[1, ]), 
           ylim = as.numeric(bbx[2, ]), axes = TRUE, ...)
         first <- FALSE
@@ -179,7 +194,6 @@ print.qmap <- function(x, ...) {
 #' #@keywords internal
 #' @export
 get_basemap <- function(bbx, p4s, base=c("1m_aerial","1ft_aerial","topo")){
-  browser()
   base<-match.arg(base)
   if(base=="1m_aerial"){
     server_url<-"http://raster.nationalmap.gov/arcgis/rest/services/Orthoimagery/USGS_EROS_Ortho_NAIP/ImageServer/exportImage?"
@@ -190,11 +204,15 @@ get_basemap <- function(bbx, p4s, base=c("1m_aerial","1ft_aerial","topo")){
   pixel_url<-"&pixelType=U8&noDataInterpretation=esriNoDataMatchAny&interpolation=+RSP_BilinearInterpolation"
   file_url<-"&f=image"
   bbx_sr_url<-paste("&bboxSR={'wkt':'",rgdal::showWKT(p4s),"'}",sep="")
-  image_sr_url<-paste("&imageSR={'wkt':'",rgdal::showWKT(p4s),"'}",sep="")  #Need to build JSON from proj4string
+  image_sr_url<-paste("&imageSR={'wkt':'",rgdal::showWKT(p4s),"'}",sep="")
+  comp_url<-"&compression=LZ77&compressionQuality=50"
+  #size_url<-paste("&size=",round(abs(bbx[1,1]-bbx[1,2]))/10,",",round(abs(bbx[2,1]-bbx[2,2]))/10,sep="")
+  #size_url<-"&size=600,800"
   request_url<-paste0(server_url,bbx_url,bbx_sr_url,image_sr_url,format_url,pixel_url,file_url)
   tmp<-tempfile()
   download.file(request_url,tmp)            
-  img<-raster::brick(tmp)
+  img<-rgdal::readGDAL(tmp)
+  file.remove(tmp)
   return(img)
 }
 
